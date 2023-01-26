@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:users_contacts/bloc/add_contact/add_contact_bloc.dart';
+import 'package:users_contacts/bloc/contact_single_bloc/single_state_bloc.dart';
 import 'package:users_contacts/cubit/get_user_contact_cubit.dart';
 import 'package:users_contacts/data/repository/user_contact_repository.dart';
 import 'package:users_contacts/screens/get_all_contact_screen.dart';
@@ -19,13 +19,16 @@ class App extends StatelessWidget {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-                create: (context) => GetUserContactsCubit(
-                    userContactRepository:
-                        context.read<UserContactRepository>())),
+              create: (context) => GetUserContactsCubit(
+                userContactRepository: context.read<UserContactRepository>()
+                  ..getAllContacts(),
+              ),
+            ),
             BlocProvider(
-                create: (context) => SingleAddContactBloc(
-                    userContactRepository:
-                    context.read<UserContactRepository>())),
+              create: (context) => AUDStateBloc(
+                userContactRepository: context.read<UserContactRepository>(),
+              ),
+            ),
           ],
           child: MyApp(),
         ));
@@ -42,7 +45,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const AllContactScreen(),
+      home: const GetContactPage(),
     );
   }
 }

@@ -6,12 +6,12 @@ import 'package:users_contacts/data/repository/user_contact_repository.dart';
 class GetUserContactsCubit extends Cubit<UserContactState> {
   GetUserContactsCubit({required this.userContactRepository})
       : super(InitialGetContacts()) {
-    _fetchAllAppointments();
+    fetchAllContacts();
   }
 
   final UserContactRepository userContactRepository;
 
-  _fetchAllAppointments() {
+  fetchAllContacts() {
     emit(LoadGetContactsInProgress());
     userContactRepository
         .getAllContacts()
